@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateIncomeDto } from './dto/create-income.dto';
-import { Income } from './models/icomes.model';
+import { CreateIncomeDto } from '../dto/create-income.dto';
+import { Income } from '../models/icomes.model';
+import { IBaseIncome } from '../types';
 
 @Injectable()
-export class IncomesService {
+export class BaseIncomesService implements IBaseIncome<typeof Income>{
   constructor(@InjectModel(Income) private incomeRepository: typeof Income) {}
 
-  async create(dto: CreateIncomeDto): Promise<Income> {
-    const createdIncome = await this.incomeRepository.create(dto);
+  async create(dto: CreateIncomeDto) {
+    const createdIncome = await this.incomeRepository.create(dto)
 
     return createdIncome;
-  }
-
+  };
 
   async getAll(): Promise<Income[]> {
     const incomes = await this.incomeRepository.findAll();
@@ -30,11 +30,6 @@ export class IncomesService {
     const income = await this.incomeRepository.findByPk(id);
     income.set({ ...dto });
     income.save();
-
-    // const updatedIncome = await this.incomeRepository.update(
-    //   { ...dto },
-    //   { where: { id } },
-    // );
 
     return income;
   }
