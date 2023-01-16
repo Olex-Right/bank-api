@@ -1,4 +1,4 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Table } from 'sequelize-typescript';
 import { Income } from './icomes.model';
 
 @Table({ tableName: 'plannedIncomes' })

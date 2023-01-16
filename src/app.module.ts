@@ -4,10 +4,15 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { IncomesModule } from './incomes/incomes.module';
 import { Income } from './incomes/models/icomes.model';
 import { PlannedIncome } from './incomes/models/PlannedIncomes.model';
+import { DevelopersModule } from './developers/developers.module';
+import { ProjectsModule } from './projects/projects.module';
+import { Developer } from './developers/developer.model';
+import { Project } from './projects/project.model';
+import { DeveloperProjects } from './developers/developerProjects.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Income, PlannedIncome]),
+    SequelizeModule.forFeature([Income, PlannedIncome, Developer, Project, DeveloperProjects]),
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
@@ -20,6 +25,8 @@ import { PlannedIncome } from './incomes/models/PlannedIncomes.model';
       autoLoadModels: true,
     }),
     IncomesModule,
+    DevelopersModule,
+    ProjectsModule,
   ],
   controllers: [],
   providers: [],
