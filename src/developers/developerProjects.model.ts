@@ -8,7 +8,7 @@ import {
 import { Project } from 'src/projects/project.model';
 import { Developer } from './developer.model';
 
-@Table({ tableName: 'developer_projects'})
+@Table({ tableName: 'developer_projects' })
 export class DeveloperProjects extends Model<DeveloperProjects> {
   @Column({
     type: DataType.INTEGER,
@@ -17,6 +17,12 @@ export class DeveloperProjects extends Model<DeveloperProjects> {
     primaryKey: true,
   })
   id?: number;
+
+  @Column({ type: DataType.INTEGER })
+  projectPrice: number;
+
+  @Column({ type: DataType.INTEGER })
+  developerPrice: number;
 
   @ForeignKey(() => Developer)
   @Column({ type: DataType.INTEGER, allowNull: false })

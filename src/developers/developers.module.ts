@@ -12,5 +12,6 @@ import { DevelopersService } from './developers.service';
   imports: [
     SequelizeModule.forFeature([Developer, Project, DeveloperProjects]),
   ],
+  exports: [DevelopersService]
 })
 export class DevelopersModule {}

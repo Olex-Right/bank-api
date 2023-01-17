@@ -30,10 +30,9 @@ export class Developer extends Model<Developer> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
   })
   position: string;
 
   @BelongsToMany(() => Project, () => DeveloperProjects)
   projects: Project[];
-}
+} 
