@@ -4,9 +4,10 @@ import {
   Column,
   DataType,
   Table,
+  HasMany,
 } from 'sequelize-typescript';
 import { Developer } from 'src/developers/developer.model';
-import { DeveloperProjects } from 'src/developers/developerProjects.model';
+import { ProjectDeveloper } from './projectDeveloper.model';
 
 interface ProjectCreationAttribute {
   name: string;
@@ -15,9 +16,9 @@ interface ProjectCreationAttribute {
 }
 
 export interface IDeveloperInfo {
-  developerId: string;
-  devValue: number;
-  valueType?: string;
+  developerId: number;
+  developerPrice: number;
+  currencyType?: string;
 }
 
 export interface DeveloperValue {
@@ -42,6 +43,6 @@ export class Project extends Model<Project, ProjectCreationAttribute> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   value: number;
 
-  @BelongsToMany(() => Developer, () => DeveloperProjects)
-  developers: DeveloperValue[];
+  @HasMany(() => ProjectDeveloper)
+  projectDevelopers: ProjectDeveloper[];
 }

@@ -6,9 +6,9 @@ import { CreateDeveloperDto } from './dto/create-developer.dto';
 interface IDevelopersService {
   create: (dto: CreateDeveloperDto) => Promise<Developer>;
   getAll: () => Promise<Developer[]>;
-  getOneById: (id: string) => Promise<Developer>;
-  updateOneById: (id: string, dto: CreateDeveloperDto) => Promise<Developer>;
-  deleteOneById: (id: string) => void;
+  getOneById: (id: number) => Promise<Developer>;
+  updateOneById: (id: number, dto: CreateDeveloperDto) => Promise<Developer>;
+  deleteOneById: (id: number) => void;
 }
 
 @Injectable()
@@ -25,13 +25,13 @@ export class DevelopersService implements IDevelopersService {
     return await this.developersRepository.findAll({ include: { all: true } });
   }
 
-  async getOneById(id: string) {
+  async getOneById(id: number) {
     return await this.developersRepository.findByPk(id, {
       include: { all: true },
     });
   }
 
-  async updateOneById(id: string, dto: CreateDeveloperDto) {
+  async updateOneById(id: number, dto: CreateDeveloperDto) {
     const developer = await this.developersRepository.findByPk(id);
     developer.set({ ...dto });
     developer.save();
@@ -39,7 +39,7 @@ export class DevelopersService implements IDevelopersService {
     return developer;
   }
 
-  async deleteOneById(id: string) {
+  async deleteOneById(id: number) {
     await (await this.developersRepository.findByPk(id)).destroy();
   }
 }

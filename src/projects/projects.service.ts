@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { InjectModel } from '@nestjs/sequelize';
-import { DeveloperProjects } from 'src/developers/developerProjects.model';
 import { DevelopersService } from 'src/developers/developers.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { IDeveloperInfo, Project } from './project.model';
+import { ProjectDeveloperService } from './projectDeveloperService.service';
 
 interface IProjectsService {
   create: (dto: CreateProjectDto) => Promise<Project>;
   getAll: () => Promise<Project[]>;
-  getOneById: (id: string) => Promise<Project>;
+  getOneById: (id: number) => Promise<Project>;
   updateOneById: (id: string, dto: CreateProjectDto) => Promise<Project>;
   addDeveloper: (
-    projectId: string,
+    projectId: number,
     developerInfo: IDeveloperInfo,
   ) => Promise<Project>;
   deleteOneById: (id: string) => void;
@@ -23,9 +23,11 @@ export class ProjectsService implements IProjectsService {
   constructor(
     @Inject(DevelopersService)
     private readonly developersService: DevelopersService,
+
+    @Inject(ProjectDeveloperService)
+    private readonly projectDeveloperService: ProjectDeveloperService,
+
     @InjectModel(Project) private projectsRepository: typeof Project,
-    @InjectModel(DeveloperProjects)
-    private developerProjectsRepository: typeof DeveloperProjects,
   ) {}
 
   async create(dto: CreateProjectDto) {
@@ -36,7 +38,7 @@ export class ProjectsService implements IProjectsService {
     return await this.projectsRepository.findAll({ include: { all: true } });
   }
 
-  async getOneById(id: string) {
+  async getOneById(id: number) {
     return await this.projectsRepository.findByPk(id);
   }
 
@@ -48,35 +50,33 @@ export class ProjectsService implements IProjectsService {
     return project;
   }
 
-  async addDeveloper(projectId: string, developerInfo: IDeveloperInfo) {
+  async addDeveloper(projectId: number, developerInfo: IDeveloperInfo) {
     const project = await this.projectsRepository.findByPk(projectId, {
       include: { all: true },
     });
+
     const developer = await this.developersService.getOneById(
       developerInfo.developerId,
     );
-    console.log('underlying');
-    project.$add('developers', developer);
-    // project.set({
-    //   ...project,
-    //   developers: [
-    //     {
-    //       developer: developer,
-    //       devValue: developerInfo.devValue,
-    //       valueType: developerInfo.valueType,
-    //     },
-    //   ],
-    // });
-    project.save();
-    return project;
-  }
+    
+    const currentProjDev = await this.projectDeveloperService.getOne(
+      projectId,
+      developerInfo.developerId,
+    );
+    console.log('\n\n currentProjDev', currentProjDev, '\n\n');
 
-  async getDeveloperProjects(devId: string, projId: string) {
-    const devProj = await this.developerProjectsRepository.findOne({
-      where: { projectId: projId, developerId: devId },
-      include: { all: true },
+    if (currentProjDev) {
+      return project;
+    }
+    const projectDeveloper = await this.projectDeveloperService.create({
+      developerPrice: developerInfo.developerPrice,
+      priceCurrency: developerInfo.currencyType,
+      developer,
     });
-    devProj.developerPrice = 34;
+    await project.$add('projectDeveloper', projectDeveloper);
+    await project.save();
+
+    return project;
   }
 
   async deleteOneById(id: string) {

@@ -9,12 +9,15 @@ import {
 } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { IDeveloperInfo } from './project.model';
+import { ProjectDeveloperService } from './projectDeveloperService.service';
 import { ProjectsService } from './projects.service';
-
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectsService: ProjectsService) {}
+  constructor(
+    private projectsService: ProjectsService,
+    private projectDevService: ProjectDeveloperService,
+  ) {}
 
   @Post('')
   createProject(@Body() ProjectDto: CreateProjectDto) {
@@ -26,8 +29,13 @@ export class ProjectsController {
     return this.projectsService.getAll();
   }
 
+  @Get('/alls')
+  getAllTest() {
+    return this.projectDevService.getAll();
+  }
+  
   @Get('/:id')
-  getByIdProject(@Param('id') id: string) {
+  getByIdProject(@Param('id') id: number) {
     console.log('id', id);
     return this.projectsService.getOneById(id);
   }
@@ -44,10 +52,10 @@ export class ProjectsController {
 
   @Put('addDeveloper/:id')
   addDevelopertoProject(
-    @Param('id') projectId: string,
-    @Body() developerValue: IDeveloperInfo,
+    @Param('id') projectId: number,
+    @Body() developerInfo: IDeveloperInfo,
   ) {
-    return this.projectsService.addDeveloper(projectId, developerValue);
+    return this.projectsService.addDeveloper(projectId, developerInfo);
   }
 
   @Delete('delete/:id')
