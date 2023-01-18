@@ -17,11 +17,15 @@ export class ProjectDeveloperService implements IProjDevService {
   ) {}
 
   async create(dto: CreateProjectDeveloperDto) {
-    return await this.projectDeveloperRepository.create({
+    const projDev = await this.projectDeveloperRepository.create({
       ...dto,
       developerId: dto.developer.id,
       developer: dto.developer,
     });
+    await projDev.$set('developer', dto.developer);
+    await projDev.save();
+
+    return projDev;
   }
 
   async getAll() {

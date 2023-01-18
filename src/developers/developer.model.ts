@@ -6,7 +6,6 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript';
-import { Project } from 'src/projects/project.model';
 import { ProjectDeveloper } from 'src/projects/projectDeveloper.model';
 
 @Table({ tableName: 'developers' })
