@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { InjectModel } from '@nestjs/sequelize';
+import { IsNull } from 'sequelize-typescript';
+import { Developer } from 'src/developers/developer.model';
 import { DevelopersService } from 'src/developers/developers.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { IDeveloperInfo, Project } from './project.model';
@@ -35,11 +37,12 @@ export class ProjectsService implements IProjectsService {
   }
 
   async getAll() {
-    return await this.projectsRepository.findAll({ include: { all: true } });
+    return await this.projectsRepository.findAll();
   }
 
   async getOneById(id: number) {
-    return await this.projectsRepository.findByPk(id);
+    return await this.projectsRepository.findByPk(id, {include: {all: true}});
+    // return await this.projectsRepository.findByPk(id, {include: [{model: Developer}]});
   }
 
   async updateOneById(id: string, dto: CreateProjectDto) {
@@ -58,23 +61,22 @@ export class ProjectsService implements IProjectsService {
     const developer = await this.developersService.getOneById(
       developerInfo.developerId,
     );
-    
-    const currentProjDev = await this.projectDeveloperService.getOne(
+
+    const isCurrentExists = await this.projectDeveloperService.isExists(
       projectId,
       developerInfo.developerId,
     );
-    console.log('\n\n currentProjDev', currentProjDev, '\n\n');
 
-    if (currentProjDev) {
+    if (isCurrentExists) {
       return project;
     }
-    const projectDeveloper = await this.projectDeveloperService.create({
+    
+    await this.projectDeveloperService.create({
+      projectId,
+      developerId: developer.id,
       developerPrice: developerInfo.developerPrice,
       priceCurrency: developerInfo.currencyType,
-      developer,
     });
-    await project.$add('projectDeveloper', projectDeveloper);
-    await project.save();
 
     return project;
   }

@@ -7,6 +7,7 @@ interface IProjDevService {
   create: (dto: CreateProjectDeveloperDto) => Promise<ProjectDeveloper>;
   getAll: () => Promise<ProjectDeveloper[]>;
   getOne: (projId: number, devId: number) => Promise<ProjectDeveloper>;
+  isExists: (projId: number, devId: number) => Promise<boolean>;
 }
 
 @Injectable()
@@ -17,15 +18,7 @@ export class ProjectDeveloperService implements IProjDevService {
   ) {}
 
   async create(dto: CreateProjectDeveloperDto) {
-    const projDev = await this.projectDeveloperRepository.create({
-      ...dto,
-      developerId: dto.developer.id,
-      developer: dto.developer,
-    });
-    await projDev.$set('developer', dto.developer);
-    await projDev.save();
-
-    return projDev;
+    return await this.projectDeveloperRepository.create(dto);
   }
 
   async getAll() {
@@ -39,5 +32,13 @@ export class ProjectDeveloperService implements IProjDevService {
     return await this.projectDeveloperRepository.findOne({
       where: { projectId: projId, developerId: devId },
     });
+  }
+
+  async isExists(projId: number, devId: number) {
+    console.log('trying into get One \n\n\n\n', projId, devId, '\n');
+    const projDev = await this.projectDeveloperRepository.findOne({
+      where: { projectId: projId, developerId: devId },
+    });
+    return projDev ? true : false;
   }
 }

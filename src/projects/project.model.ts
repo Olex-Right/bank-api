@@ -43,6 +43,6 @@ export class Project extends Model<Project, ProjectCreationAttribute> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   value: number;
 
-  @HasMany(() => ProjectDeveloper)
-  projectDevelopers: ProjectDeveloper[];
+  @BelongsToMany(() => Developer, () => ProjectDeveloper)
+  developers: Developer[];
 }

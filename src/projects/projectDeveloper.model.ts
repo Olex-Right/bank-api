@@ -36,7 +36,4 @@ export class ProjectDeveloper extends Model<ProjectDeveloper> {
 
   @BelongsTo(() => Project)
   project: Project;
-
-  @HasOne(() => Developer)
-  developer: Developer;
 }

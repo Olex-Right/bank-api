@@ -3,9 +3,9 @@ import {
   Column,
   DataType,
   Table,
-  BelongsTo,
-  ForeignKey,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { Project } from 'src/projects/project.model';
 import { ProjectDeveloper } from 'src/projects/projectDeveloper.model';
 
 @Table({ tableName: 'developers' })
@@ -33,10 +33,6 @@ export class Developer extends Model<Developer> {
   })
   position: string;
 
-  @ForeignKey(() => ProjectDeveloper)
-  @Column({ type: DataType.INTEGER })
-  projectDeveloperId: number;
-
-  @BelongsTo(() => ProjectDeveloper)
-  project: ProjectDeveloper;
+  @BelongsToMany(() => Project, () => ProjectDeveloper)
+  projects: Project[];
 }
