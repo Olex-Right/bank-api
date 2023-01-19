@@ -8,11 +8,17 @@ import { DevelopersModule } from './developers/developers.module';
 import { ProjectsModule } from './projects/projects.module';
 import { Developer } from './developers/developer.model';
 import { Project } from './projects/project.model';
-import { DeveloperProjects } from './developers/developerProjects.model';
+import { ProjectDeveloper } from './projects/projectDeveloper.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Income, PlannedIncome, Developer, Project, DeveloperProjects]),
+    SequelizeModule.forFeature([
+      Income,
+      PlannedIncome,
+      Developer,
+      Project,
+      ProjectDeveloper,
+    ]),
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     SequelizeModule.forRoot({
       dialect: 'postgres',

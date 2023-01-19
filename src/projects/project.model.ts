@@ -4,12 +4,27 @@ import {
   Column,
   DataType,
   Table,
+  HasMany,
 } from 'sequelize-typescript';
 import { Developer } from 'src/developers/developer.model';
-import { DeveloperProjects } from 'src/developers/developerProjects.model';
+import { ProjectDeveloper } from './projectDeveloper.model';
 
 interface ProjectCreationAttribute {
-  value: string;
+  name: string;
+  value: number;
+  developers: DeveloperValue[];
+}
+
+export interface IDeveloperInfo {
+  developerId: number;
+  developerPrice: number;
+  currencyType?: string;
+}
+
+export interface DeveloperValue {
+  developer: Developer;
+  devValue: number;
+  valueType?: string;
 }
 
 @Table({ tableName: 'projects' })
@@ -23,8 +38,11 @@ export class Project extends Model<Project, ProjectCreationAttribute> {
   id: number;
 
   @Column({ type: DataType.STRING, allowNull: false })
-  value: string;
+  name: string;
 
-  @BelongsToMany(() => Developer, () => DeveloperProjects)
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  value: number;
+
+  @BelongsToMany(() => Developer, () => ProjectDeveloper)
   developers: Developer[];
 }
