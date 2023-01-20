@@ -4,7 +4,9 @@ import {
   DataType,
   Table,
   BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript';
+import { Expense } from 'src/expenses/model/expense.model';
 import { Project } from 'src/projects/project.model';
 import { ProjectDeveloper } from 'src/projects/projectDeveloper.model';
 
@@ -32,6 +34,9 @@ export class Developer extends Model<Developer> {
     type: DataType.STRING,
   })
   position: string;
+
+  @HasMany(() => Expense)
+  expenses: Expense[];
 
   @BelongsToMany(() => Project, () => ProjectDeveloper)
   projects: Project[];

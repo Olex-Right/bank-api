@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { InjectModel } from '@nestjs/sequelize';
-import { IsNull } from 'sequelize-typescript';
-import { Developer } from 'src/developers/developer.model';
 import { DevelopersService } from 'src/developers/developers.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { IDeveloperInfo, Project } from './project.model';

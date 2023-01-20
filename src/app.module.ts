@@ -9,10 +9,16 @@ import { ProjectsModule } from './projects/projects.module';
 import { Developer } from './developers/developer.model';
 import { Project } from './projects/project.model';
 import { ProjectDeveloper } from './projects/projectDeveloper.model';
+import { ExpensesModule } from './expenses/expenses.module';
+import { Expense } from './expenses/model/expense.model';
+import { Type } from './types/model/type.model';
+import { TypesModule } from './types/types.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([
+      Expense,
+      Type,
       Income,
       PlannedIncome,
       Developer,
@@ -33,6 +39,8 @@ import { ProjectDeveloper } from './projects/projectDeveloper.model';
     IncomesModule,
     DevelopersModule,
     ProjectsModule,
+    ExpensesModule,
+    TypesModule,
   ],
   controllers: [],
   providers: [],

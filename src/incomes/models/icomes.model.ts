@@ -26,5 +26,5 @@ export class Income extends Model<Income> {
     type: DataType.DATE,
     allowNull: false,
   })
-  month: string;
+  dateOfIncome: Date;
 }
