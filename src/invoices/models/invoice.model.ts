@@ -19,7 +19,7 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   isClosed: boolean;
 
-  @Column({ type: DataType.DATE })
+  @Column({ type: DataType.DATE, defaultValue: DataType.NOW })
   dateOfOpen: Date;
 
   @Column({ type: DataType.DATE })
