@@ -1,5 +1,4 @@
 import {
-  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -7,10 +6,10 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Developer } from 'src/developers/developer.model';
-import { Project } from './project.model';
+import { Invoice } from './invoice.model';
 
-@Table({ tableName: 'project_developer' })
-export class ProjectDeveloper extends Model<ProjectDeveloper> {
+@Table({ tableName: 'invoice_developer' })
+export class InvoiceDeveloper extends Model<InvoiceDeveloper> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -20,19 +19,16 @@ export class ProjectDeveloper extends Model<ProjectDeveloper> {
   id: number;
 
   @Column({ type: DataType.INTEGER })
-  developerPrice: number;
+  developerSalary: number;
 
   @Column({ type: DataType.STRING })
-  priceCurrency: string;
+  currency: string;
 
-  @ForeignKey(() => Project)
+  @ForeignKey(() => Invoice)
   @Column({ type: DataType.INTEGER})
-  projectId: number;
+  invoiceId: number;
 
   @ForeignKey(() => Developer)
   @Column({ type: DataType.INTEGER})
   developerId: number;
-
-  // @BelongsTo(() => Project)
-  // project: Project;
 }

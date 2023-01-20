@@ -1,4 +1,6 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Developer } from 'src/developers/developer.model';
+import { InvoiceDeveloper } from './invoiceDeveloper.model';
 
 @Table({ tableName: 'invoices' })
 export class Invoice extends Model<Invoice> {
@@ -34,5 +36,6 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.STRING })
   invoiceType: 'employeeHours' | 'projectHours' | 'TaskHours';
 
-  //Element depend on type
+  @BelongsToMany(() => Developer, () => InvoiceDeveloper)
+  developers: Developer[];
 }

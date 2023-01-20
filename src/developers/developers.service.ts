@@ -4,7 +4,9 @@ import { IService } from 'src/globalInterfaces';
 import { Developer } from './developer.model';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 
-interface IDevelopersService extends IService<CreateDeveloperDto, Developer> {}
+interface IDevelopersService extends IService<CreateDeveloperDto, Developer> {
+  getManyByIds: (ids: number[]) => Promise<Developer[]>;
+}
 
 @Injectable()
 export class DevelopersService implements IDevelopersService {
@@ -24,6 +26,10 @@ export class DevelopersService implements IDevelopersService {
     return await this.developersRepository.findByPk(id, {
       include: { all: true },
     });
+  }
+
+  async getManyByIds(ids: number[]) {
+    return this.developersRepository.findAll({ where: { id: ids } });
   }
 
   async updateOneById(id: number, dto: CreateDeveloperDto) {
