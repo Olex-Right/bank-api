@@ -27,14 +27,14 @@ export class ExpensesController {
 
   @Put('update/:id')
   updateByIdExpense(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() expenseDto: CreateExpenseDto,
   ) {
     return this.expensesService.updateOneById(id, expenseDto);
   }
 
   @Delete('delete/:id')
-  deleteByIdExpense(@Param('id') id: string) {
+  deleteByIdExpense(@Param('id') id: number) {
     return this.expensesService.deleteOneById(id);
   }
 }

@@ -2,20 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { InjectModel } from '@nestjs/sequelize';
 import { DevelopersService } from 'src/developers/developers.service';
+import { IService } from 'src/globalInterfaces';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { IDeveloperInfo, Project } from './project.model';
 import { ProjectDeveloperService } from './projectDeveloperService.service';
 
-interface IProjectsService {
-  create: (dto: CreateProjectDto) => Promise<Project>;
-  getAll: () => Promise<Project[]>;
-  getOneById: (id: number) => Promise<Project>;
-  updateOneById: (id: string, dto: CreateProjectDto) => Promise<Project>;
+interface IProjectsService extends IService<CreateProjectDto, Project> {
   addDeveloper: (
     projectId: number,
     developerInfo: IDeveloperInfo,
   ) => Promise<Project>;
-  deleteOneById: (id: string) => void;
 }
 
 @Injectable()
@@ -39,11 +35,13 @@ export class ProjectsService implements IProjectsService {
   }
 
   async getOneById(id: number) {
-    return await this.projectsRepository.findByPk(id, {include: {all: true}});
+    return await this.projectsRepository.findByPk(id, {
+      include: { all: true },
+    });
     // return await this.projectsRepository.findByPk(id, {include: [{model: Developer}]});
   }
 
-  async updateOneById(id: string, dto: CreateProjectDto) {
+  async updateOneById(id: number, dto: CreateProjectDto) {
     const project = await this.projectsRepository.findByPk(id);
     project.set({ ...dto });
     project.save();
@@ -68,7 +66,7 @@ export class ProjectsService implements IProjectsService {
     if (isCurrentExists) {
       return project;
     }
-    
+
     await this.projectDeveloperService.create({
       projectId,
       developerId: developer.id,
@@ -79,7 +77,7 @@ export class ProjectsService implements IProjectsService {
     return project;
   }
 
-  async deleteOneById(id: string) {
+  async deleteOneById(id: number) {
     await (await this.projectsRepository.findByPk(id)).destroy();
   }
 }

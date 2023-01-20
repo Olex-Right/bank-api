@@ -1,16 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { IService } from 'src/globalInterfaces';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { Type } from './model/type.model';
 
-interface ITypesService {
-  create: (dto: CreateTypeDto) => Promise<Type>;
-  getAll: () => Promise<Type[]>;
-  getOneById: (id: number) => Promise<Type>;
-  getOneByName: (typeName: string) => Promise<Type>;
-  updateOneById: (id: number, dto: CreateTypeDto) => Promise<Type>;
-  deleteOneById: (id: number) => void;
-}
+interface ITypesService extends IService<CreateTypeDto, Type> {}
 
 @Injectable()
 export class TypesService implements ITypesService {
