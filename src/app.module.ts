@@ -13,6 +13,7 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/model/expense.model';
 import { Type } from './types/model/type.model';
 import { TypesModule } from './types/types.module';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { TypesModule } from './types/types.module';
     ProjectsModule,
     ExpensesModule,
     TypesModule,
+    InvoicesModule,
   ],
   controllers: [],
   providers: [],
