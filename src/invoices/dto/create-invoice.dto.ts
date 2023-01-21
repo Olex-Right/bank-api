@@ -4,5 +4,12 @@ export class CreateInvoiceDto {
   readonly currency: string;
   readonly dateOfOpen?: Date;
   readonly invoiceType: 'employeeHours' | 'projectHours' | 'TaskHours';
-  readonly developerIds: number[];
+  readonly developersInfo: DeveloperInfo[];
+}
+
+interface DeveloperInfo {
+  developerId: number;
+  developerSalary: number;
+  currency: string;
+  typeOfSalary: 'byHours' | 'byProject' | 'fixed';
 }

@@ -19,6 +19,16 @@ export class InvoicesController {
     return this.invoicesService.create(invoiceDto);
   }
 
+  @Get('invdev')
+  getAllInvoiceDevs() {
+    return this.invoicesService.getAllInvDevs();
+  }
+
+  @Get('invdev/:id')
+  getByIdInvoiceDev(@Param('id') id: number) {
+    return this.invoicesService.getInvDevById(id);
+  }
+
   @Get('')
   getAllInvoices() {
     return this.invoicesService.getAll();
@@ -26,7 +36,6 @@ export class InvoicesController {
 
   @Get('/:id')
   getByIdInvoice(@Param('id') id: number) {
-    console.log('id', id);
     return this.invoicesService.getOneById(id);
   }
 

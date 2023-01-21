@@ -16,6 +16,7 @@ import { TypesModule } from './types/types.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { Invoice } from './invoices/models/invoice.model';
 import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
+import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
       Income,
       Invoice,
       InvoiceDeveloper,
+      InvoiceDevSalary,
       PlannedIncome,
       Developer,
       Project,
