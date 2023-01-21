@@ -65,12 +65,26 @@ export class InvoicesService implements IInvoicesService {
   }
 
   async getAll() {
-    return await this.invoiceRepository.findAll({ include: { all: true } });
+    return await this.invoiceRepository.findAll({
+      include: [
+        {
+          model: InvoiceDeveloper,
+          include: [InvoiceDevSalary],
+        },
+        { model: Developer, through: { attributes: [] } },
+      ],
+    });
   }
 
   async getOneById(id: number) {
     return await this.invoiceRepository.findByPk(id, {
-      include: { all: true },
+      include: [
+        {
+          model: InvoiceDeveloper,
+          include: [InvoiceDevSalary],
+        },
+        { model: Developer, through: { attributes: [] } },
+      ],
     });
   }
 
