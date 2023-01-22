@@ -23,19 +23,25 @@ export class IncomesController {
   getAllIncomes() {
     return this.incomeService.getAll();
   }
+
+  @Get('month/all')
+  getAllMonthSumIncome() {
+    return this.incomeService.getAllMonthSumIncome();
+  }
+
   @Get('month/:monthIndex')
-  getMonthIncomes(@Param('monthIndex') monthIndex: number) {
-    return this.incomeService.getMonthIncomes(monthIndex);
+  getMonthSumIncomes(@Param('monthIndex') monthIndex: number) {
+    return this.incomeService.getMonthSumIncomes(monthIndex);
   }
 
   @Get('/:id')
-  getByIdIncome(@Param('id') id: string) {
+  getByIdIncome(@Param('id') id: number) {
     return this.incomeService.getOneById(id);
   }
 
   @Put('update/:id')
   updateByIdIncome(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() incomeDto: CreateIncomeDto,
   ) {
     console.log('im in update contr');
@@ -44,7 +50,7 @@ export class IncomesController {
   }
 
   @Delete('delete/:id')
-  deleteByIdIncome(@Param('id') id: string) {
+  deleteByIdIncome(@Param('id') id: number) {
     return this.incomeService.deleteOneById(id);
   }
 }
