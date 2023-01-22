@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Developer } from 'src/developers/developer.model';
 import { DevelopersService } from 'src/developers/developers.service';
 import { IService } from 'src/globalInterfaces';
+import { IncomesService } from 'src/incomes/incomes.service';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { Invoice } from '../models/invoice.model';
 import { InvoiceDeveloper } from '../models/invoiceDeveloper.model';
@@ -22,10 +23,15 @@ export class InvoicesService implements IInvoicesService {
 
     @Inject(DevelopersService)
     private readonly developersService: DevelopersService,
+
+    @Inject(IncomesService)
+    private readonly incomesService: IncomesService,
   ) {}
 
   async create(dto: CreateInvoiceDto) {
     const invoice = await this.invoiceRepository.create(dto);
+
+    //add Developers to Invoice
     const developers: Developer[] = await this.developersService.getManyByIds(
       dto.invoiceDevSalDto.map((dto) => {
         return dto.invoiceDevId;
@@ -35,6 +41,7 @@ export class InvoicesService implements IInvoicesService {
     await invoice.$set('developers', developers);
     await invoice.save();
 
+    //add Salary to Invoice Developers
     dto.invoiceDevSalDto.forEach(async (dto) => {
       await this.invoiceDevsService.addDevSalary(invoice.id, {
         invoiceDevId: dto.invoiceDevId,
@@ -42,6 +49,15 @@ export class InvoicesService implements IInvoicesService {
         currency: dto.currency,
       });
     });
+
+    //add Income to Invoice
+    const income = await this.incomesService.create({
+      value: dto.value,
+      currency: dto.currency,
+      dateOfIncome: dto.dateOfDue,
+    });
+    await invoice.$set('income', income);
+    await invoice.save();
 
     return invoice;
   }

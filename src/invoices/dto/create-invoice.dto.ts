@@ -6,6 +6,7 @@ export class CreateInvoiceDto {
   readonly value: number;
   readonly currency: string;
   readonly dateOfOpen?: Date;
+  readonly dateOfDue?: Date;
   readonly invoiceSalType: InvoiceSalType;
   readonly invoiceDevSalDto: CreateInvDevSalDto[];
 }

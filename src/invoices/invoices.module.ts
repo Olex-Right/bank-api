@@ -8,10 +8,12 @@ import { InvoiceDeveloper } from './models/invoiceDeveloper.model';
 import { InvoiceDevSalary } from './models/invoiceDevSalary.model';
 import { InvoiceDevsService } from './services/invoiceDevs,service';
 import { InvoiceDevSalsService } from './services/invoiceDevSals.service';
+import { IncomesModule } from 'src/incomes/incomes.module';
 
 @Module({
   imports: [
     DevelopersModule,
+    IncomesModule,
     SequelizeModule.forFeature([Invoice, InvoiceDeveloper, InvoiceDevSalary]),
   ],
   controllers: [InvoicesController],

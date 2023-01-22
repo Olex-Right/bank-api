@@ -5,10 +5,9 @@ import { IncomesService } from './incomes.service';
 import { Income } from './models/icomes.model';
 
 @Module({
+  imports: [SequelizeModule.forFeature([Income])],
   controllers: [IncomesController],
   providers: [IncomesService],
-  imports:[
-    SequelizeModule.forFeature([Income])
-  ]
+  exports: [IncomesService],
 })
 export class IncomesModule {}
