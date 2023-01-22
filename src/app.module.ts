@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { IncomesModule } from './incomes/incomes.module';
 import { Income } from './incomes/models/icomes.model';
-import { PlannedIncome } from './incomes/models/PlannedIncomes.model';
 import { DevelopersModule } from './developers/developers.module';
 import { ProjectsModule } from './projects/projects.module';
 import { Developer } from './developers/developer.model';
@@ -27,7 +26,6 @@ import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
       Invoice,
       InvoiceDeveloper,
       InvoiceDevSalary,
-      PlannedIncome,
       Developer,
       Project,
       ProjectDeveloper,
