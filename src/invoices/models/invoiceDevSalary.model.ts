@@ -24,9 +24,6 @@ export class InvoiceDevSalary extends Model<InvoiceDevSalary> {
   @Column({ type: DataType.STRING, allowNull: false })
   currency: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  typeOfSalary: 'byHours' | 'byProject' | 'fixed';
-
   @ForeignKey(() => InvoiceDeveloper)
   @Column({ type: DataType.INTEGER })
   invoiceDevId: number;

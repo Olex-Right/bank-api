@@ -8,7 +8,7 @@ import {
   Controller,
 } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { InvoicesService } from './invoices.service';
+import { InvoicesService } from './services/invoices.service';
 
 @Controller('invoices')
 export class InvoicesController {
@@ -17,16 +17,6 @@ export class InvoicesController {
   @Post('')
   createInvoice(@Body() invoiceDto: CreateInvoiceDto) {
     return this.invoicesService.create(invoiceDto);
-  }
-
-  @Get('invdev')
-  getAllInvoiceDevs() {
-    return this.invoicesService.getAllInvDevs();
-  }
-
-  @Get('invdev/:id')
-  getByIdInvoiceDev(@Param('id') id: number) {
-    return this.invoicesService.getInvDevById(id);
   }
 
   @Get('')

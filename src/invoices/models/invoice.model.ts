@@ -9,6 +9,9 @@ import {
 import { Developer } from 'src/developers/developer.model';
 import { InvoiceDeveloper } from './invoiceDeveloper.model';
 
+export type InvoiceStatus = 'opened' | 'closed' | 'overdue';
+export type InvoiceSalType = 'employeeHours' | 'projectHours' | 'taskHours';
+
 @Table({ tableName: 'invoices' })
 export class Invoice extends Model<Invoice> {
   @Column({
@@ -25,9 +28,6 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   value: number;
 
-  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
-  isClosed: boolean;
-
   @Column({ type: DataType.DATE, defaultValue: DataType.NOW })
   dateOfOpen: Date;
 
@@ -40,8 +40,11 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.STRING })
   currency: string;
 
+  @Column({ type: DataType.STRING, defaultValue: "opened" })
+  invoiceStatus: InvoiceStatus;
+
   @Column({ type: DataType.STRING })
-  invoiceType: 'employeeHours' | 'projectHours' | 'TaskHours';
+  invoiceSalType: InvoiceSalType;
 
   @HasMany(() => InvoiceDeveloper)
   invoiceDevs: InvoiceDeveloper[];

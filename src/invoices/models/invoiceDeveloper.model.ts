@@ -20,12 +20,6 @@ export class InvoiceDeveloper extends Model<InvoiceDeveloper> {
   })
   id: number;
 
-  @Column({ type: DataType.INTEGER })
-  developerSalary: number;
-
-  @Column({ type: DataType.STRING })
-  currency: string;
-
   @HasOne(() => InvoiceDevSalary)
   invoiceDevSalary: InvoiceDevSalary;
 
