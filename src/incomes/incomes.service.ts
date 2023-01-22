@@ -10,7 +10,7 @@ export interface IAllMonthSumIncomes {
 }
 
 interface IIncomesService extends IService<CreateIncomeDto, Income> {
-  getSumIncomes: (incomes: Income[]) => number;
+  getSumOfIncomes: (incomes: Income[]) => number;
   getMonthSumIncomes: (monthIndex: number) => Promise<number>;
   getAllMonthSumIncome: () => Promise<IAllMonthSumIncomes[]>;
 }
@@ -33,7 +33,7 @@ export class IncomesService implements IIncomesService {
   }
 
   private async updateMonthIndex(income: Income, date: Date) {
-    income.set('monthIndex', new Date(date).getMonth());
+    income.set('monthIndex', this.getMonth(date));
     income.save();
 
     return income;
@@ -52,17 +52,16 @@ export class IncomesService implements IIncomesService {
   }
 
   async getMonthIncomes(monthIndex: number): Promise<Income[]> {
-    const incomes = this.incomeRepository.findAll({ where: { monthIndex } });
-    return incomes;
+    return await this.incomeRepository.findAll({ where: { monthIndex } });
   }
 
-  getSumIncomes(incomes: Income[]): number {
+  getSumOfIncomes(incomes: Income[]): number {
     return incomes.reduce((sum, income) => sum + income.value, 0);
   }
 
   async getMonthSumIncomes(monthIndex: number): Promise<number> {
     const incomes = await this.getMonthIncomes(monthIndex);
-    return this.getSumIncomes(incomes);
+    return this.getSumOfIncomes(incomes);
   }
 
   async getAllMonthSumIncome(): Promise<IAllMonthSumIncomes[]> {
@@ -92,5 +91,13 @@ export class IncomesService implements IIncomesService {
   async deleteOneById(id: number) {
     await (await this.incomeRepository.findByPk(id)).destroy();
     console.log('destroyed ');
+  }
+
+  private getMonth(date: Date): number {
+    return new Date(date).getMonth();
+  }
+
+  private getYear(date: Date): number {
+    return new Date(date).getMonth();
   }
 }
