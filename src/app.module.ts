@@ -16,6 +16,8 @@ import { InvoicesModule } from './invoices/invoices.module';
 import { Invoice } from './invoices/models/invoice.model';
 import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
 import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
+import { ClientsModule } from './clients/clients.module';
+import { Client } from './clients/model/client.model';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
       Developer,
       Project,
       ProjectDeveloper,
+      Client,
     ]),
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     SequelizeModule.forRoot({
@@ -47,6 +50,7 @@ import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
     ExpensesModule,
     TypesModule,
     InvoicesModule,
+    ClientsModule,
   ],
   controllers: [],
   providers: [],
