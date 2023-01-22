@@ -9,41 +9,27 @@ import {
 } from '@nestjs/common';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { IncomesService } from './incomes.service';
-import { PlannedIncomesService } from './services/plannedIncomes.service';
 
 @Controller('incomes')
 export class IncomesController {
-  constructor(
-    private incomeService: IncomesService,
-    private plannedIncomeService: PlannedIncomesService,
-  ) {}
+  constructor(private incomeService: IncomesService) {}
 
   @Post('')
   createIncome(@Body() incomeDto: CreateIncomeDto) {
     return this.incomeService.create(incomeDto);
-  }
-  
-  @Post('planned')
-  createPlannedIncome(@Body() incomeDto: CreateIncomeDto) {
-    return this.plannedIncomeService.create(incomeDto);
-  }
-  @Get('planned')
-  getAllPlannedIncomes() {
-    return this.plannedIncomeService.getAll();
-  }
-  @Get('plannedtest')
-  getPlannedTest(){
-    return this.plannedIncomeService.getNumber3();
   }
 
   @Get('')
   getAllIncomes() {
     return this.incomeService.getAll();
   }
+  @Get('month/:monthIndex')
+  getMonthIncomes(@Param('monthIndex') monthIndex: number) {
+    return this.incomeService.getMonthIncomes(monthIndex);
+  }
 
   @Get('/:id')
   getByIdIncome(@Param('id') id: string) {
-    console.log('id', id);
     return this.incomeService.getOneById(id);
   }
 

@@ -3,14 +3,12 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { IncomesController } from './incomes.controller';
 import { IncomesService } from './incomes.service';
 import { Income } from './models/icomes.model';
-import { PlannedIncome } from './models/PlannedIncomes.model';
-import { PlannedIncomesService } from './services/plannedIncomes.service';
 
 @Module({
   controllers: [IncomesController],
-  providers: [IncomesService, PlannedIncomesService],
+  providers: [IncomesService],
   imports:[
-    SequelizeModule.forFeature([Income, PlannedIncome])
+    SequelizeModule.forFeature([Income])
   ]
 })
 export class IncomesModule {}

@@ -11,7 +11,7 @@ export class BaseIncomesService implements IBaseIncome<typeof Income>{
   async create(dto: CreateIncomeDto) {
     const createdIncome = await this.incomeRepository.create(dto)
 
-    return createdIncome;
+    return createdIncome;  
   };
 
   async getAll(): Promise<Income[]> {

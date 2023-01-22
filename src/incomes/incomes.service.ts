@@ -8,11 +8,24 @@ export class IncomesService {
   constructor(@InjectModel(Income) private incomeRepository: typeof Income) {}
 
   async create(dto: CreateIncomeDto): Promise<Income> {
-    const createdIncome = await this.incomeRepository.create(dto);
+    let createdIncome = await this.incomeRepository.create(dto);
+    
+    if (dto.dateOfIncome) {
+      createdIncome = await this.updateMonthIndex(
+        createdIncome,
+        dto.dateOfIncome,
+      );
+    }
 
     return createdIncome;
   }
 
+  private async updateMonthIndex(income: Income, date: Date) {
+    income.set('monthIndex', new Date(date).getMonth());
+    income.save();
+
+    return income;
+  }
 
   async getAll(): Promise<Income[]> {
     const incomes = await this.incomeRepository.findAll();
@@ -24,6 +37,11 @@ export class IncomesService {
     const income = await this.incomeRepository.findByPk(id);
 
     return income;
+  }
+
+  async getMonthIncomes(monthIndex: number): Promise<Income[]> {
+    const incomes = this.incomeRepository.findAll({ where: { monthIndex } });
+    return incomes;
   }
 
   async updateOneById(id: string, dto: CreateIncomeDto): Promise<Income> {

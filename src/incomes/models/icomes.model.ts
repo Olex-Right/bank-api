@@ -1,4 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Invoice } from 'src/invoices/models/invoice.model';
 
 @Table({ tableName: 'icomes' })
 export class Income extends Model<Income> {
@@ -18,13 +26,25 @@ export class Income extends Model<Income> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    defaultValue: 'USD',
   })
   currency: string;
 
   @Column({
     type: DataType.DATE,
-    allowNull: false,
+    defaultValue: DataType.NOW,
   })
   dateOfIncome: Date;
+
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: new Date().getMonth(),
+  })
+  monthIndex: number;
+
+  @ForeignKey(() => Invoice)
+  invoiceId: Invoice;
+
+  @BelongsTo(() => Invoice)
+  invoice: Invoice;
 }

@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   HasMany,
+  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { Developer } from 'src/developers/developer.model';
+import { Income } from 'src/incomes/models/icomes.model';
 import { InvoiceDeveloper } from './invoiceDeveloper.model';
 
 export type InvoiceStatus = 'opened' | 'closed' | 'overdue';
@@ -40,7 +42,7 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.STRING })
   currency: string;
 
-  @Column({ type: DataType.STRING, defaultValue: "opened" })
+  @Column({ type: DataType.STRING, defaultValue: 'opened' })
   invoiceStatus: InvoiceStatus;
 
   @Column({ type: DataType.STRING })
@@ -51,4 +53,7 @@ export class Invoice extends Model<Invoice> {
 
   @BelongsToMany(() => Developer, () => InvoiceDeveloper)
   developers: Developer[];
+
+  @HasOne(() => Income)
+  income: Income;
 }
