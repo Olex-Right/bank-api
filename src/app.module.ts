@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { IncomesModule } from './incomes/incomes.module';
 import { Income } from './incomes/models/icomes.model';
-import { PlannedIncome } from './incomes/models/PlannedIncomes.model';
 import { DevelopersModule } from './developers/developers.module';
 import { ProjectsModule } from './projects/projects.module';
 import { Developer } from './developers/developer.model';
@@ -13,6 +12,12 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/model/expense.model';
 import { Type } from './types/model/type.model';
 import { TypesModule } from './types/types.module';
+import { InvoicesModule } from './invoices/invoices.module';
+import { Invoice } from './invoices/models/invoice.model';
+import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
+import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
+import { ClientsModule } from './clients/clients.module';
+import { Client } from './clients/model/client.model';
 
 @Module({
   imports: [
@@ -20,10 +25,13 @@ import { TypesModule } from './types/types.module';
       Expense,
       Type,
       Income,
-      PlannedIncome,
+      Invoice,
+      InvoiceDeveloper,
+      InvoiceDevSalary,
       Developer,
       Project,
       ProjectDeveloper,
+      Client,
     ]),
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     SequelizeModule.forRoot({
@@ -41,6 +49,8 @@ import { TypesModule } from './types/types.module';
     ProjectsModule,
     ExpensesModule,
     TypesModule,
+    InvoicesModule,
+    ClientsModule,
   ],
   controllers: [],
   providers: [],

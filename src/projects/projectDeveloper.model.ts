@@ -3,7 +3,6 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -34,6 +33,6 @@ export class ProjectDeveloper extends Model<ProjectDeveloper> {
   @Column({ type: DataType.INTEGER})
   developerId: number;
 
-  @BelongsTo(() => Project)
-  project: Project;
+  // @BelongsTo(() => Project)
+  // project: Project;
 }

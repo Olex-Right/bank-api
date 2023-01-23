@@ -9,31 +9,14 @@ import {
 } from '@nestjs/common';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { IncomesService } from './incomes.service';
-import { PlannedIncomesService } from './services/plannedIncomes.service';
 
 @Controller('incomes')
 export class IncomesController {
-  constructor(
-    private incomeService: IncomesService,
-    private plannedIncomeService: PlannedIncomesService,
-  ) {}
+  constructor(private incomeService: IncomesService) {}
 
   @Post('')
   createIncome(@Body() incomeDto: CreateIncomeDto) {
     return this.incomeService.create(incomeDto);
-  }
-  
-  @Post('planned')
-  createPlannedIncome(@Body() incomeDto: CreateIncomeDto) {
-    return this.plannedIncomeService.create(incomeDto);
-  }
-  @Get('planned')
-  getAllPlannedIncomes() {
-    return this.plannedIncomeService.getAll();
-  }
-  @Get('plannedtest')
-  getPlannedTest(){
-    return this.plannedIncomeService.getNumber3();
   }
 
   @Get('')
@@ -41,15 +24,24 @@ export class IncomesController {
     return this.incomeService.getAll();
   }
 
+  @Get('month/all')
+  getAllMonthSumIncome() {
+    return this.incomeService.getAllMonthSumIncome();
+  }
+
+  @Get('month/:monthIndex')
+  getMonthSumIncomes(@Param('monthIndex') monthIndex: number) {
+    return this.incomeService.getMonthSumIncomes(monthIndex);
+  }
+
   @Get('/:id')
-  getByIdIncome(@Param('id') id: string) {
-    console.log('id', id);
+  getByIdIncome(@Param('id') id: number) {
     return this.incomeService.getOneById(id);
   }
 
   @Put('update/:id')
   updateByIdIncome(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() incomeDto: CreateIncomeDto,
   ) {
     console.log('im in update contr');
@@ -58,7 +50,7 @@ export class IncomesController {
   }
 
   @Delete('delete/:id')
-  deleteByIdIncome(@Param('id') id: string) {
+  deleteByIdIncome(@Param('id') id: number) {
     return this.incomeService.deleteOneById(id);
   }
 }

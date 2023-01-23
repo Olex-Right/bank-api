@@ -3,17 +3,12 @@ import { Inject } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
 import { InjectModel } from '@nestjs/sequelize';
+import { IService } from 'src/globalInterfaces';
 import { TypesService } from 'src/types/types.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { Expense } from './model/expense.model';
 
-interface IExpensesService {
-  create: (dto: CreateExpenseDto) => Promise<Expense>;
-  getAll: () => Promise<Expense[]>;
-  getOneById: (id: number) => Promise<Expense>;
-  updateOneById: (id: string, dto: CreateExpenseDto) => Promise<Expense>;
-  deleteOneById: (id: string) => void;
-}
+interface IExpensesService extends IService<CreateExpenseDto, Expense> {}
 
 @Injectable()
 export class ExpensesService implements IExpensesService {
@@ -46,7 +41,7 @@ export class ExpensesService implements IExpensesService {
     });
   }
 
-  async updateOneById(id: string, dto: CreateExpenseDto) {
+  async updateOneById(id: number, dto: CreateExpenseDto) {
     const expense = await this.expensesRepository.findByPk(id);
     expense.set({ ...dto });
     expense.save();
@@ -54,7 +49,7 @@ export class ExpensesService implements IExpensesService {
     return expense;
   }
 
-  async deleteOneById(id: string) {
+  async deleteOneById(id: number) {
     await (await this.expensesRepository.findByPk(id)).destroy();
   }
 }

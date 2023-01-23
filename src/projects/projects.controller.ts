@@ -42,7 +42,7 @@ export class ProjectsController {
 
   @Put('update/:id')
   updateByIdProject(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() ProjectDto: CreateProjectDto,
   ) {
     console.log('im in update contr');
@@ -59,7 +59,7 @@ export class ProjectsController {
   }
 
   @Delete('delete/:id')
-  deleteByIdProject(@Param('id') id: string) {
+  deleteByIdProject(@Param('id') id: number) {
     return this.projectsService.deleteOneById(id);
   }
 }

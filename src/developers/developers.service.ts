@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { IService } from 'src/globalInterfaces';
 import { Developer } from './developer.model';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 
-interface IDevelopersService {
-  create: (dto: CreateDeveloperDto) => Promise<Developer>;
-  getAll: () => Promise<Developer[]>;
-  getOneById: (id: number) => Promise<Developer>;
-  updateOneById: (id: number, dto: CreateDeveloperDto) => Promise<Developer>;
-  deleteOneById: (id: number) => void;
+interface IDevelopersService extends IService<CreateDeveloperDto, Developer> {
+  getManyByIds: (ids: number[]) => Promise<Developer[]>;
 }
 
 @Injectable()
@@ -29,6 +26,10 @@ export class DevelopersService implements IDevelopersService {
     return await this.developersRepository.findByPk(id, {
       include: { all: true },
     });
+  }
+
+  async getManyByIds(ids: number[]) {
+    return this.developersRepository.findAll({ where: { id: ids } });
   }
 
   async updateOneById(id: number, dto: CreateDeveloperDto) {
