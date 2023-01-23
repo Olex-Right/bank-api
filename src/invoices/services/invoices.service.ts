@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { InjectModel } from '@nestjs/sequelize';
+import { ClientsService } from 'src/clients/clients.service';
 import { Developer } from 'src/developers/developer.model';
 import { DevelopersService } from 'src/developers/developers.service';
 import { IService } from 'src/globalInterfaces';
@@ -9,7 +10,7 @@ import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { Invoice } from '../models/invoice.model';
 import { InvoiceDeveloper } from '../models/invoiceDeveloper.model';
 import { InvoiceDevSalary } from '../models/invoiceDevSalary.model';
-import { InvoiceDevsService } from './invoiceDevs,service';
+import { InvoiceDevsService } from './invoiceDevs.service';
 
 interface IInvoicesService extends IService<CreateInvoiceDto, Invoice> {}
 
@@ -26,6 +27,9 @@ export class InvoicesService implements IInvoicesService {
 
     @Inject(IncomesService)
     private readonly incomesService: IncomesService,
+
+    @Inject(ClientsService)
+    private readonly clientsService: ClientsService,
   ) {}
 
   async create(dto: CreateInvoiceDto) {
@@ -59,6 +63,11 @@ export class InvoicesService implements IInvoicesService {
     await invoice.$set('income', income);
     await invoice.save();
 
+    //add Invoice to Client
+    const client = await this.clientsService.getOneById(dto.clientId);
+    client.$add('invoices', invoice);
+    await client.save();
+
     return invoice;
   }
 
@@ -76,13 +85,14 @@ export class InvoicesService implements IInvoicesService {
 
   async getOneById(id: number) {
     return await this.invoiceRepository.findByPk(id, {
-      include: [
-        {
-          model: InvoiceDeveloper,
-          include: [InvoiceDevSalary],
-        },
-        { model: Developer, through: { attributes: [] } },
-      ],
+      // include: [
+      //   {
+      //     model: InvoiceDeveloper,
+      //     include: [InvoiceDevSalary],
+      //   },
+      //   { model: Developer, through: { attributes: [] } },
+      // ],
+      include: { all: true },
     });
   }
 

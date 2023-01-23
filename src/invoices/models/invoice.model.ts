@@ -1,12 +1,15 @@
 import {
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
+  ForeignKey,
   HasMany,
   HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Client } from 'src/clients/model/client.model';
 import { Developer } from 'src/developers/developer.model';
 import { Income } from 'src/incomes/models/icomes.model';
 import { InvoiceDeveloper } from './invoiceDeveloper.model';
@@ -56,4 +59,10 @@ export class Invoice extends Model<Invoice> {
 
   @HasOne(() => Income)
   income: Income;
+
+  @ForeignKey(() => Client)
+  clientId: number;
+
+  @BelongsTo(() => Client)
+  client: Client;
 }

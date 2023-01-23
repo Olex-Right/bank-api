@@ -9,4 +9,5 @@ export class CreateInvoiceDto {
   readonly dateOfDue?: Date;
   readonly invoiceSalType: InvoiceSalType;
   readonly invoiceDevSalDto: CreateInvDevSalDto[];
+  readonly clientId: number;
 }
