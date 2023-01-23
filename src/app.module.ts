@@ -18,6 +18,8 @@ import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
 import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
 import { ClientsModule } from './clients/clients.module';
 import { Client } from './clients/model/client.model';
+import { SalariesModule } from './salaries/salaries.module';
+import { Salary } from './salaries/model/salary.model';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { Client } from './clients/model/client.model';
       Invoice,
       InvoiceDeveloper,
       InvoiceDevSalary,
+      Salary,
       Developer,
       Project,
       ProjectDeveloper,
@@ -51,6 +54,7 @@ import { Client } from './clients/model/client.model';
     TypesModule,
     InvoicesModule,
     ClientsModule,
+    SalariesModule,
   ],
   controllers: [],
   providers: [],
