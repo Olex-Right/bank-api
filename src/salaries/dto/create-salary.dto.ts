@@ -1,21 +1,21 @@
 import { TypeOfSalary } from "../model/salary.model";
 
 export class CreateSalaryDto {
-  typeOfSalary: TypeOfSalary;
+  readonly typeOfSalary: TypeOfSalary;
 
-  fixedValue?: number;
+  readonly fixedValue?: number;
 
-  fixedDate?: Date;
+  readonly fixedDate?: Date;
 
-  perHourValue?: number;
+  readonly perHourValue?: number;
 
-  hours?: number;
+  readonly hours?: number;
 
-  HoursDate?: Date;
+  readonly HoursDate?: Date;
 
-  perProjectValue?: number;
+  readonly perProjectValue?: number;
 
-  projectStart?: Date;
+  readonly projectStart?: Date;
 
-  projectEnd?: Date;
+  readonly projectEnd?: Date;
 }

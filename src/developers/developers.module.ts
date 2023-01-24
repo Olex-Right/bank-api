@@ -7,9 +7,11 @@ import { DevelopersController } from './developers.controller';
 import { DevelopersService } from './developers.service';
 
 @Module({
+  imports: [
+    SequelizeModule.forFeature([Developer, Project, Expense]),
+  ],
   controllers: [DevelopersController],
   providers: [DevelopersService],
-  imports: [SequelizeModule.forFeature([Developer, Project, Expense])],
   exports: [DevelopersService],
 })
 export class DevelopersModule {}

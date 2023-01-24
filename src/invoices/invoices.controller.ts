@@ -9,14 +9,29 @@ import {
 } from '@nestjs/common';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { InvoicesService } from './services/invoices.service';
+import { CreateInvoiceSalaryDto } from './dto/create-invoiceSalary.dto';
+import { InvoiceSalariesService } from './services/invoiceSalaries.service';
 
 @Controller('invoices')
 export class InvoicesController {
-  constructor(private invoicesService: InvoicesService) {}
+  constructor(
+    private invoicesService: InvoicesService,
+    private invoiceSalariesService: InvoiceSalariesService,
+  ) {}
 
   @Post('')
   createInvoice(@Body() invoiceDto: CreateInvoiceDto) {
     return this.invoicesService.create(invoiceDto);
+  }
+
+  @Post('/salary')
+  createSlary(@Body() invoiceSalaryDto: CreateInvoiceSalaryDto) {
+    return this.invoiceSalariesService.create(invoiceSalaryDto);
+  }
+
+  @Get('/salary')
+  getAllSalaries() {
+    return this.invoiceSalariesService.getAll();
   }
 
   @Get('')

@@ -14,12 +14,11 @@ import { Type } from './types/model/type.model';
 import { TypesModule } from './types/types.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { Invoice } from './invoices/models/invoice.model';
-import { InvoiceDeveloper } from './invoices/models/invoiceDeveloper.model';
-import { InvoiceDevSalary } from './invoices/models/invoiceDevSalary.model';
 import { ClientsModule } from './clients/clients.module';
 import { Client } from './clients/model/client.model';
 import { SalariesModule } from './salaries/salaries.module';
 import { Salary } from './salaries/model/salary.model';
+import { InvoiceSalary } from './invoices/models/invoiceSalary.model';
 
 @Module({
   imports: [
@@ -28,8 +27,7 @@ import { Salary } from './salaries/model/salary.model';
       Type,
       Income,
       Invoice,
-      InvoiceDeveloper,
-      InvoiceDevSalary,
+      InvoiceSalary,
       Salary,
       Developer,
       Project,

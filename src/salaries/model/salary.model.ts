@@ -1,7 +1,13 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { InvoiceSalary } from 'src/invoices/models/invoiceSalary.model';
 
-// TODO: Is it possible to provide ts Enum in DataType.ENUM
-const valuesOfSalaryType = ['fixed', 'perHour', 'perProject'] as const;
+export const valuesOfSalaryType = ['fixed', 'perHour', 'perProject'] as const;
 export type TypeOfSalary = (typeof valuesOfSalaryType)[number];
 
 @Table({ tableName: 'salaries' })
@@ -43,4 +49,7 @@ export class Salary extends Model<Salary> {
 
   @Column({ type: DataType.DATE })
   projectEnd: Date;
+
+  @ForeignKey(() => InvoiceSalary)
+  invoiceSalaryId: string;
 }

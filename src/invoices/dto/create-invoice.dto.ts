@@ -1,5 +1,5 @@
-import { InvoiceSalType } from '../models/invoice.model';
-import { CreateInvDevSalDto } from './create-invDevSal.dto';
+import { TypeOfSalary } from 'src/salaries/model/salary.model';
+import { CreateInvoiceSalaryDto } from './create-invoiceSalary.dto';
 
 export class CreateInvoiceDto {
   readonly invoiceNumber: number;
@@ -7,7 +7,7 @@ export class CreateInvoiceDto {
   readonly currency: string;
   readonly dateOfOpen?: Date;
   readonly dateOfDue?: Date;
-  readonly invoiceSalType: InvoiceSalType;
-  readonly invoiceDevSalDto: CreateInvDevSalDto[];
+  readonly invoiceSalaryType: TypeOfSalary;
+  readonly invoiceSalaryDtos: CreateInvoiceSalaryDto[];
   readonly clientId: number;
 }

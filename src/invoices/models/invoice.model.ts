@@ -1,6 +1,5 @@
 import {
   BelongsTo,
-  BelongsToMany,
   Column,
   DataType,
   ForeignKey,
@@ -10,12 +9,15 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Client } from 'src/clients/model/client.model';
-import { Developer } from 'src/developers/developer.model';
 import { Income } from 'src/incomes/models/icomes.model';
-import { InvoiceDeveloper } from './invoiceDeveloper.model';
+import { InvoiceSalary } from './invoiceSalary.model';
+import {
+  TypeOfSalary,
+  valuesOfSalaryType,
+} from 'src/salaries/model/salary.model';
 
-export type InvoiceStatus = 'opened' | 'closed' | 'overdue';
-export type InvoiceSalType = 'employeeHours' | 'projectHours' | 'taskHours';
+export const valuesOfInvoiceStatus = ['opened', 'closed', 'overdue'] as const;
+export type TypeOfInvoiceStatus = typeof valuesOfInvoiceStatus;
 
 @Table({ tableName: 'invoices' })
 export class Invoice extends Model<Invoice> {
@@ -45,17 +47,17 @@ export class Invoice extends Model<Invoice> {
   @Column({ type: DataType.STRING })
   currency: string;
 
-  @Column({ type: DataType.STRING, defaultValue: 'opened' })
-  invoiceStatus: InvoiceStatus;
+  @Column({
+    type: DataType.ENUM(...valuesOfInvoiceStatus),
+    defaultValue: valuesOfInvoiceStatus[0],
+  })
+  invoiceStatus: TypeOfInvoiceStatus;
 
-  @Column({ type: DataType.STRING })
-  invoiceSalType: InvoiceSalType;
+  @Column({ type: DataType.ENUM(...valuesOfSalaryType) })
+  invoiceSalaryType: TypeOfSalary;
 
-  @HasMany(() => InvoiceDeveloper)
-  invoiceDevs: InvoiceDeveloper[];
-
-  @BelongsToMany(() => Developer, () => InvoiceDeveloper)
-  developers: Developer[];
+  @HasMany(() => InvoiceSalary)
+  invoiceSalaries: InvoiceSalary[];
 
   @HasOne(() => Income)
   income: Income;

@@ -5,9 +5,11 @@ import {
   Table,
   BelongsToMany,
   HasMany,
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript';
 import { Expense } from 'src/expenses/model/expense.model';
-import { InvoiceDeveloper } from 'src/invoices/models/invoiceDeveloper.model';
+import { InvoiceSalary } from 'src/invoices/models/invoiceSalary.model';
 import { Project } from 'src/projects/project.model';
 import { ProjectDeveloper } from 'src/projects/projectDeveloper.model';
 
@@ -39,8 +41,11 @@ export class Developer extends Model<Developer> {
   @HasMany(() => Expense)
   expenses: Expense[];
 
-  @BelongsToMany(() => Developer, () => InvoiceDeveloper)
-  developers: Developer[];
+  @ForeignKey(() => InvoiceSalary)
+  invoiceSalaryId: string;
+
+  @BelongsTo(() => InvoiceSalary)
+  invoiceSalary: InvoiceSalary[];
 
   @BelongsToMany(() => Project, () => ProjectDeveloper)
   projects: Project[];
